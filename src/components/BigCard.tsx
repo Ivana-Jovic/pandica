@@ -12,12 +12,12 @@ function BigCard({
 }) {
   return (
     <div>
-      <div className="card w-80 h-[460px] bg-base-100 shadow-xl rounded-sm">
+      <div className="card w-[380px] h-[460px] bg-base-100 shadow-xl rounded-sm">
         <figure className="m-3 h-40">
           <img
             src={image}
             alt=""
-            className="rounded-sm h-40 w-[300px] object-cover "
+            className="rounded-sm h-40 w-[350px] object-cover "
           />
         </figure>
         <div className="card-body items-center text-center">

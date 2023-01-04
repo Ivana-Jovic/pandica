@@ -76,9 +76,9 @@ function Home() {
           //   object-fit: cover;
           //   layout="fill"
           //   objectFit="cover"
-          className="opacity-20 top-0 left-0 right-0 absolute h-[600px] object-cover w-full object-top"
+          className="opacity-20  top-0 left-0 right-0 absolute h-[600px] object-cover w-full object-top"
         />
-        <div className="mt-[300px]">
+        <div className="mt-[300px] mx-10 ">
           <div className=" w-full flex flex-col items-center space-y-4">
             <div className="flex gap-7 justify-center flex-wrap mx-32">
               {animals.map((animal) => {
@@ -89,14 +89,19 @@ function Home() {
                 );
               })}
             </div>
-            <div className="space-x-3">
-              <button className="btn btn-circle">1</button>
-              <button className="btn btn-circle">2</button>
+            <div className="flex space-x-3 z-10">
+              <button className="btn btn-circle bg-white text-text  border-white ">
+                1
+              </button>
+              <button className="btn btn-circle bg-white text-text border-white">
+                2
+              </button>
             </div>
           </div>
 
           {/* fixed top-[670px] */}
-          <div className="flex flex-wrap gap-7 mx-32 justify-center mt-7">
+          <div className="flex flex-wrap  max-w-7xl gap-7 mx-auto justify-center my-7">
+            {/* max-w-5xl */}
             {events.map((event) => {
               return (
                 <div className="">
