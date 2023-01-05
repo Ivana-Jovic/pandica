@@ -4,6 +4,8 @@ import Contact from "./Contact";
 import Home from "./Home";
 import Tickets from "./Tickets";
 import { Toaster } from "react-hot-toast";
+import Animal from "./Animal";
+import Notifications from "./Notifications";
 
 function Pages() {
   return (
@@ -13,7 +15,9 @@ function Pages() {
       <div className="grow flex flex-col bg-lightGreen">
         {/* <Contact /> */}
         {/* <Home /> */}
-        <Tickets />
+        {/* <Tickets /> */}
+        {/* <Animal /> */}
+        <Notifications />
       </div>
       <Footer />
     </div>

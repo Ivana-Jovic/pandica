@@ -2,6 +2,7 @@ import TicketCard from "components/TicketCard";
 import TicketCardPicture from "components/TicketCardPicture";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import bgImage from "images/panda.jpg";
 
 function Tickets() {
   const [count, seCount] = useState<number>(1);
@@ -27,7 +28,12 @@ function Tickets() {
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center relative">
+      <img
+        src={bgImage}
+        alt=""
+        className="opacity-5  top-0 left-0 right-0 absolute h-full object-cover w-full "
+      />
       <div className="mt-10 flex gap-20 flex-wrap justify-center">
         <TicketCard
           title="Pojedinačna ulaznica"
