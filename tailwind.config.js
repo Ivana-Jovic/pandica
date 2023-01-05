@@ -10,6 +10,7 @@ module.exports = {
         lightGreen: "#EBEDE6",
         darkGreen: "#D7DCC8",
         text: "#000000",
+        offwhite: "#F5F5F5",
         // footer: "#161616",
         // textFooter: "#f8fafc",
         // background: "#f8fafc",
