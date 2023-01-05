@@ -1,7 +1,6 @@
 import logo from "images/logo.png";
 function Navbar() {
   return (
-    // <div></div>
     <div className="w-full bg-darkGreen px-10 py-3 grid grid-cols-2 items-center">
       {/* <a href="/"> */}
       <img src={logo} alt="" height="60" width="60" />

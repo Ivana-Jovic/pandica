@@ -3,6 +3,7 @@ import Navbar from "components/Navbar";
 import Footer from "components/Footer";
 import SmallCard from "components/SmallCard";
 import BigCard from "components/BigCard";
+import { useState } from "react";
 
 interface animalInfo {
   name: string;
@@ -10,6 +11,10 @@ interface animalInfo {
 }
 const animals: animalInfo[] = [
   { name: "Sumski ris", image: "/images2/sumskiris.jpg" },
+  { name: "Merkat", image: "/images2/merkat.jpg" },
+  { name: "Koala", image: "/images2/koala.jpg" },
+  { name: "Zebra", image: "/images2/zebra.jpg" },
+  { name: "Azijski lav", image: "/images2/azijskilav.jpg" },
   { name: "Merkat", image: "/images2/merkat.jpg" },
   { name: "Koala", image: "/images2/koala.jpg" },
   { name: "Zebra", image: "/images2/zebra.jpg" },
@@ -66,59 +71,76 @@ const events: eventInfo[] = [
   },
 ];
 function Home() {
+  const numberOfPages = Math.ceil(animals.length / 5);
+  const arrayOfPages = Array.from({ length: numberOfPages }, (v, k) => k + 1);
+  const [newPage, setNewPage] = useState<number>(1);
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
-      <div className="relative bg-lightGreen grow">
-        <img
-          src={bgImage}
-          alt=""
-          //   object-fit: cover;
-          //   layout="fill"
-          //   objectFit="cover"
-          className="opacity-20  top-0 left-0 right-0 absolute h-[600px] object-cover w-full object-top"
-        />
-        <div className="mt-[300px] mx-10 ">
-          <div className=" w-full flex flex-col items-center space-y-4">
-            <div className="flex gap-7 justify-center flex-wrap mx-32">
-              {animals.map((animal) => {
-                return (
-                  <div className="">
-                    <SmallCard name={animal.name} image={animal.image} />
-                  </div>
-                );
-              })}
-            </div>
-            <div className="flex space-x-3 z-10">
-              <button className="btn btn-circle bg-white text-text  border-white ">
-                1
-              </button>
-              <button className="btn btn-circle bg-white text-text border-white">
-                2
-              </button>
-            </div>
-          </div>
-
-          {/* fixed top-[670px] */}
-          <div className="flex flex-wrap  max-w-7xl gap-7 mx-auto justify-center my-7">
-            {/* max-w-5xl */}
-            {events.map((event) => {
+    // <div className="min-h-screen flex flex-col">
+    // {/* <Navbar /> */}
+    <div className="relative bg-lightGreen ">
+      {/* grow */}
+      <img
+        src={bgImage}
+        alt=""
+        //   object-fit: cover;
+        //   layout="fill"
+        //   objectFit="cover"
+        className="opacity-20  top-0 left-0 right-0 absolute h-[600px] object-cover w-full object-top"
+      />
+      <div className="mt-[300px] mx-10 ">
+        <div className=" w-full flex flex-col items-center space-y-4">
+          <div className="flex gap-7 justify-center flex-wrap mx-32">
+            {animals.slice((newPage - 1) * 5, newPage * 5).map((animal) => {
               return (
                 <div className="">
-                  <BigCard
-                    title={event.title}
-                    description={event.description}
-                    likes={event.likes}
-                    image={event.image}
-                  />
+                  <SmallCard name={animal.name} image={animal.image} />
                 </div>
               );
             })}
           </div>
+          <div className="flex space-x-3 z-10">
+            {arrayOfPages.map((pg) => {
+              return (
+                <div className="">
+                  {/* MIKI ya on click*/}
+                  <button
+                    onClick={() => setNewPage(pg)}
+                    className="btn btn-circle bg-white text-text  border-white "
+                  >
+                    {pg}
+                  </button>
+                </div>
+              );
+            })}
+            {/* <button className="btn btn-circle bg-white text-text  border-white ">
+                1
+              </button>
+              <button className="btn btn-circle bg-white text-text border-white">
+                2
+              </button> */}
+          </div>
+        </div>
+
+        {/* fixed top-[670px] */}
+        <div className="flex flex-wrap  max-w-7xl gap-7 mx-auto justify-center my-7">
+          {/* max-w-5xl */}
+          {events.map((event) => {
+            return (
+              <div className="">
+                <BigCard
+                  title={event.title}
+                  description={event.description}
+                  likes={event.likes}
+                  image={event.image}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
-      <Footer />
     </div>
+    // {/* <Footer /> */}
+    // </div>
   );
 }
 
