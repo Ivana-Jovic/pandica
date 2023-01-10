@@ -19,6 +19,10 @@ function Tickets() {
 
   const kupi = () => {
     toast.success("Kupljena ulaznica");
+    localStorage.setItem(
+      "notificationAdmin",
+      JSON.stringify("Ceka odobravanje")
+    ); //TODO add user name
   };
 
   const odustani = () => {
@@ -28,11 +32,11 @@ function Tickets() {
   };
 
   return (
-    <div className="flex flex-col items-center relative">
+    <div className="flex flex-col items-center relative grow">
       <img
         src={bgImage}
         alt=""
-        className="opacity-5  top-0 left-0 right-0 absolute h-full object-cover w-full "
+        className="opacity-5 -z-10 top-0 left-0 right-0 absolute h-full object-cover w-full "
       />
       <div className="mt-10 flex gap-20 flex-wrap justify-center">
         <TicketCard

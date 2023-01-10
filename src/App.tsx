@@ -1,8 +1,9 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import Pages from "./pages/Pages";
+import Layout from "./pages/Layout";
 import "./styles/global.css";
+import Pages from "pages/Pages";
 // function App() {
 //   return (
 //     <div className="App">
@@ -28,6 +29,7 @@ function App() {
     <div className="App">
       {/* <header className="App-header"> */}
       <Pages />
+      {/* <Layout /> */}
       {/* </header> */}
     </div>
   );

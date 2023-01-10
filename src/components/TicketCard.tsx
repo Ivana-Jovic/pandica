@@ -14,7 +14,8 @@ function TicketCard({
   setSelectedItemPrice: Dispatch<React.SetStateAction<number>>;
 }) {
   return (
-    <div className="flex flex-col w-96 bg-offwhite shadow-md">
+    <div className="flex flex-col w-96 relative bg-offwhite shadow-md">
+      {/* //MIKI yasto ovde mora relative inace ne radi dugme */}
       <div className="mt-7 ">
         <div className="font-semibold text-xl">{title}</div>
         <div className="mt-12">{description}</div>

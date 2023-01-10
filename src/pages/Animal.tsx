@@ -1,17 +1,58 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 import bgImage from "images/panda.jpg";
+import { useParams } from "react-router-dom";
+
+interface animalInfo {
+  name: string;
+  image: string;
+  description: string;
+  comments: string[];
+}
+
 function Animal() {
   const [wantToComm, setWantToComm] = useState<boolean>(false);
+  const [newComment, setNewComment] = useState<string>("");
   const postComment = () => {
     toast.success("Komentar ostavljen");
-    //TODO
+    const a: animalInfo[] = JSON.parse(localStorage.getItem("animals") + "");
+    for (let i = 0; i < a.length; i++) {
+      if (a[i].name === name) {
+        a[i].comments.push(newComment);
+        break;
+      }
+    }
+    localStorage.setItem("animals", JSON.stringify(a));
   };
   const cancelComment = () => {
     setWantToComm(!wantToComm);
+    setNewComment("");
     toast.error("Odustano od postavljanja komentara");
   };
+
+  let { name } = useParams(); //MIKI tim prome
+  const [currAnimal, setCurrAnimal] = useState<animalInfo>();
+  const a: animalInfo[] = JSON.parse(localStorage.getItem("animals") + "");
+  // let currAnimal: animalInfo; //TODO ako ne nadje ....
+  // for (let i = 0; i < a.length; i++) {
+  //   if (a[i].name === name) {
+  //     //     // currAnimal = a[i]; //TODO MIKI sta raditi sa tipom use state use ref ;
+  //     // setCurrAnimal(a[i]);
+  //     //     //  da li treba use efef
+  //     //     break;
+  //   }
+  // }
+  useEffect(() => {
+    for (let i = 0; i < a.length; i++) {
+      if (a[i].name === name) {
+        //     // currAnimal = a[i]; //TODO MIKI sta raditi sa tipom use state use ref ;
+        setCurrAnimal(a[i]);
+        //     //  da li treba use efef
+        break;
+      }
+    }
+  }, []);
   return (
     <div
       className="px-20 w-full  flex flex-col items-center  
@@ -20,38 +61,37 @@ function Animal() {
       <img
         src={bgImage}
         alt=""
-        className="opacity-5  top-0 left-0 right-0 absolute h-full object-cover w-full "
+        className="opacity-5 -z-10 top-0 left-0 right-0 absolute h-full object-cover w-full "
       />
-      <div className="my-10 text-2xl font-semibold">Sumski ris</div>
+      <div className="my-10 text-2xl font-semibold">{currAnimal?.name}</div>
+
       <div className="flex-col lg:flex-row flex gap-14  items-center  ">
         <div className="">
           <img
-            src="/images2/sumskiris.jpg"
+            src={currAnimal?.image}
             alt=""
             className="max-w-[400px] border border-gray-300"
           />
         </div>
         <div className="max-w-[400px] bg-offwhite p-7 ">
-          Naćin života: usamljenici, aktivni i danju i noću; imaju odlićan njuh;
-          kada love, satima slede žrtvu, ili je ćekaju u zasedi. <br />
-          Ishrana: mala jelenska divljać, koze, ovce, zećevi, ptice. <br />{" "}
-          Dužina: 90–150 centimetara (sa repom)
-          <br /> Težina: 18–38 kilograma.
-          <br />
-          Razmnožavanje: graviditet traje nešto duže od dva meseca; ženka u maju
-          ili junu rađa 2–4 slepa mlada; progledaju posle dve nedelje, a uz
-          majku ostaju dok ne navrše prvu godinu. <br />
-          Životni vek: 16–18 godina. Ris je najveća evropska maćka. U stanju je
-          da ulovi životinju koja je ćetiri puta krupnija od njega.
+          {currAnimal?.description}
         </div>
       </div>
       <div className="w-full mb-10 max-w-5xl">
         <div className="my-10 text-2xl font-semibold">
           Komentari drugih korisnika
         </div>
-        <div className="textarea  rounded-sm text-left">
-          Ovo je jedan komentar
-          {/* Todo dohvati iy baye */}
+        <div className="flex gap-7 justify-center flex-wrap max-w-5xl">
+          {currAnimal?.comments.map((comment) => {
+            return (
+              <div
+                key={comment}
+                className="textarea  rounded-sm text-left bg-gray-300 w-full"
+              >
+                {comment}
+              </div>
+            );
+          })}
         </div>
         {!wantToComm && (
           <button
@@ -61,10 +101,15 @@ function Animal() {
             Ostavi komentar
           </button>
         )}
+
         {wantToComm && (
           <div>
             <div className="mt-10">
-              <textarea className="textarea w-full rounded-sm "></textarea>
+              <textarea
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                className="textarea w-full rounded-sm "
+              ></textarea>
             </div>
             <div className="flex gap-10 justify-center">
               <button

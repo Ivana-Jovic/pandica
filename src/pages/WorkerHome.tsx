@@ -54,7 +54,7 @@ function WorkerHome() {
       <div className="flex gap-7 justify-center flex-wrap mx-32 max-w-5xl">
         {animals.map((animal) => {
           return (
-            <div className="">
+            <div key={animal.name} className="">
               <SmallCard name={animal.name} image={animal.image} />
             </div>
           );

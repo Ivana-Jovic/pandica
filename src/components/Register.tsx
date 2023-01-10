@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import bgImage from "images/panda.jpg";
 import toast from "react-hot-toast";
-import Register from "components/Register";
+import { useNavigate } from "react-router-dom";
 
 type IFormInput = {
   firstName: string;
@@ -12,7 +12,24 @@ type IFormInput = {
   oldPassword: string;
   newPassword: string;
 };
-function Profile() {
+
+interface userInfo {
+  firstName: string;
+  lastName: string;
+  telephone: string;
+  adress: string;
+  username: string;
+  password: string;
+  notifications: string[];
+}
+
+function Register({
+  inPopup,
+  action,
+}: {
+  inPopup: boolean;
+  action?: () => void;
+}) {
   const {
     handleSubmit,
     register,
@@ -30,19 +47,46 @@ function Profile() {
   });
   const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput) => {
     toast.success("Promenjeni podaci");
+    const u: userInfo[] = JSON.parse(localStorage.getItem("users") + "");
+    // const u: userInfo[] = [];
+    const newUser: userInfo = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      telephone: data.telephone,
+      adress: data.adress,
+      username: data.username,
+      password: data.oldPassword,
+      notifications: [],
+    };
+    //TODO promena podataka
+    // u.find((user)=>{
+    //     return data.username
+
+    // })
+    // for (let i = 0; i < a.length; i++) {
+    //   if (a[i].name === name) {
+    //     a[i].comments.push(newComment);
+    //     break;
+    //   }
+    // }
+    if (inPopup) {
+      localStorage.setItem("currUser", JSON.stringify(newUser));
+      action?.();
+    }
+    u.push(newUser);
+    console.log(u);
+    localStorage.setItem("users", JSON.stringify(u));
   };
+  const navigate = useNavigate();
+
   const cancel = () => {
     toast.error("Odustano od promene podtaka");
+    navigate("/");
   };
   return (
-    <div className="flex flex-col items-center relative grow">
-      <img
-        src={bgImage}
-        alt=""
-        className="opacity-5  -z-10 top-0 left-0 right-0 absolute h-full object-cover w-full "
-      />
-      <div className="my-10 text-2xl font-semibold">Profile</div>
-      {/* <form onSubmit={handleSubmit(onSubmit)}>
+    <div className="flex flex-col items-center mt-5">
+      {/* <div className="my-10 text-2xl font-semibold">Profile</div> */}
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div
           className="grid grid-cols-2 gap-5 justify-between 
         text-left w-[450px]"
@@ -68,15 +112,16 @@ function Profile() {
             value="Promeni"
             className="my-5 btn border-none w-48 bg-offwhite hover:bg-offwhite  shadow-md hover:shadow-lg text-black   rounded-md"
           />
-          <button
-            onClick={cancel}
-            className="my-5 btn border-none w-48 bg-offwhite hover:bg-offwhite  shadow-md hover:shadow-lg text-black   rounded-md"
-          >
-            Odustani
-          </button>
+          {!inPopup && (
+            <button
+              onClick={cancel}
+              className="my-5 btn border-none w-48 bg-offwhite hover:bg-offwhite  shadow-md hover:shadow-lg text-black   rounded-md"
+            >
+              Odustani
+            </button>
+          )}
         </div>
-      </form> */}
-      <Register inPopup={false} />
+      </form>
       <div>
         <div>
           {(errors.firstName ||
@@ -93,4 +138,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default Register;

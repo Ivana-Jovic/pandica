@@ -8,7 +8,7 @@ function Contact() {
         //   object-fit: cover;
         //   layout="fill"
         //   objectFit="cover"
-        className="opacity-5  top-0 left-0 right-0 absolute h-full object-cover w-full "
+        className="opacity-10 -z-10 top-0 left-0 right-0 absolute h-full object-cover w-full "
       />
       {/* //MIKI ovde kao da nije height full em zbog slike, em zbog centriranja vertikalnog */}
       <div
@@ -29,7 +29,7 @@ function Contact() {
               className="max-h-[400px] border border-gray-300"
             />
           </figure>
-          <div className="card-body my-16 ml-32 font-semibold">
+          <div className="card-body my-16 lg:ml-32 font-semibold">
             {/* <h2 className="card-title">New album is released!</h2>
           <p>Click the button to listen on Spotiwhy app.</p> */}
             <p>Radimo 365 dana u godini: </p>
