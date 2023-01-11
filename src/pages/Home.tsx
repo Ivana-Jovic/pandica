@@ -54,30 +54,36 @@ const animals2: animalInfo[] = [
     description: des,
     comments: ["Ovo je komentar 1", "Ovo je komentar 2"],
   },
-  // {
-  //   name: "Merkat",
-  //   image: "/images2/merkat.jpg",
-  //   description: des,
-  //   comments: ["Ovo je komentar 1","Ovo je komentar 2"],
-  // },
-  // {
-  //   name: "Koala",
-  //   image: "/images2/koala.jpg",
-  //   description: des,
-  //   comments: ["Ovo je komentar 1","Ovo je komentar 2"],
-  // },
-  // {
-  //   name: "Zebra",
-  //   image: "/images2/zebra.jpg",
-  //   description: des,
-  //   comments: ["Ovo je komentar 1","Ovo je komentar 2"],
-  // },
-  // {
-  //   name: "Azijski lav",
-  //   image: "/images2/azijskilav.jpg",
-  //   description: des,
-  //   comments: [],
-  // },
+  {
+    name: "Azijski slon",
+    image: "/images2/azijskislon.jpg",
+    description: des,
+    comments: ["Ovo je komentar 1", "Ovo je komentar 2"],
+  },
+  {
+    name: "Orangutan",
+    image: "/images2/orangutan.jpg",
+    description: des,
+    comments: ["Ovo je komentar 1", "Ovo je komentar 2"],
+  },
+  {
+    name: "Zirafa",
+    image: "/images2/zirafa.jpg",
+    description: des,
+    comments: ["Ovo je komentar 1", "Ovo je komentar 2"],
+  },
+  {
+    name: "Gorila",
+    image: "/images2/gorila.jpg",
+    description: des,
+    comments: ["Ovo je komentar 1", "Ovo je komentar 2"],
+  },
+  {
+    name: "Nosorog",
+    image: "/images2/nosorog.jpg",
+    description: des,
+    comments: [],
+  },
 ];
 interface eventInfo {
   title: string;
@@ -173,7 +179,10 @@ function Home() {
     localStorage.setItem("animals", JSON.stringify(animals2));
     localStorage.setItem("events", JSON.stringify(events));
     localStorage.setItem("users", JSON.stringify(users));
-    localStorage.setItem("notificationAdmin", JSON.stringify([]));
+    localStorage.setItem(
+      "notificationAdmin",
+      JSON.stringify(["notAdmin1", "notAdmin2"])
+    );
   }
 
   return (

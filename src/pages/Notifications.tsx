@@ -10,11 +10,13 @@ interface userInfo {
 }
 
 function Notifications() {
-  const u: userInfo[] = JSON.parse(localStorage.getItem("users") + "");
-  const cu = JSON.parse(localStorage.getItem("currUser") + "");
-  var uu = u.find((user) => {
+  const users: userInfo[] = JSON.parse(localStorage.getItem("users") + "");
+  const currUser = JSON.parse(localStorage.getItem("currUser") + "");
+  var user = users.find((user) => {
     // setCurrUser(user);
-    return user.username === cu.username && user.password === cu.password;
+    return (
+      user.username === currUser.username && user.password === currUser.password
+    );
   });
   // if (uu) {
   // }
@@ -26,7 +28,7 @@ function Notifications() {
       <img
         src={bgImage}
         alt=""
-        className="opacity-5  top-0 left-0 right-0 absolute h-full object-cover w-full "
+        className="opacity-10  -z-10 top-0 left-0 right-0 absolute h-full object-cover w-full "
       />
 
       <div className="my-10 text-2xl font-semibold">Moja obaveštenja</div>
@@ -36,12 +38,12 @@ function Notifications() {
           {/* Todo dohvati iy baye */}
         {/* </div> */}
         <div className="flex gap-7 justify-center flex-wrap max-w-5xl">
-          {uu &&
-            uu?.notifications.map((not) => {
+          {user &&
+            user?.notifications.map((not) => {
               return (
                 <div
                   key={not}
-                  className="textarea  rounded-sm text-left bg-gray-300 w-full"
+                  className="textarea  rounded-sm text-left bg-white w-full"
                 >
                   {not}
                 </div>
