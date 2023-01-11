@@ -3,13 +3,7 @@ import toast from "react-hot-toast";
 
 import bgImage from "images/panda.jpg";
 import { useParams } from "react-router-dom";
-
-interface animalInfo {
-  name: string;
-  image: string;
-  description: string;
-  comments: string[];
-}
+import { animalInfo } from "data";
 
 function Animal() {
   const [wantToComm, setWantToComm] = useState<boolean>(false);

@@ -4,26 +4,23 @@ import BigCard from "components/BigCard";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
+import { animalInfo, animals2 } from "data";
 type IFormInput = {
   picture: string;
   name: string;
   description: string;
 };
-interface animalInfo {
-  name: string;
-  image: string;
-}
-const animals: animalInfo[] = [
-  { name: "Sumski ris", image: "/images2/sumskiris.jpg" },
-  { name: "Merkat", image: "/images2/merkat.jpg" },
-  { name: "Koala", image: "/images2/koala.jpg" },
-  { name: "Zebra", image: "/images2/zebra.jpg" },
-  { name: "Azijski lav", image: "/images2/azijskilav.jpg" },
-  { name: "Merkat", image: "/images2/merkat.jpg" },
-  { name: "Koala", image: "/images2/koala.jpg" },
-  { name: "Zebra", image: "/images2/zebra.jpg" },
-  { name: "Azijski lav", image: "/images2/azijskilav.jpg" },
-];
+// const animals: animalInfo[] = [
+//   { name: "Sumski ris", image: "/images2/sumskiris.jpg" },
+//   { name: "Merkat", image: "/images2/merkat.jpg" },
+//   { name: "Koala", image: "/images2/koala.jpg" },
+//   { name: "Zebra", image: "/images2/zebra.jpg" },
+//   { name: "Azijski lav", image: "/images2/azijskilav.jpg" },
+//   { name: "Merkat", image: "/images2/merkat.jpg" },
+//   { name: "Koala", image: "/images2/koala.jpg" },
+//   { name: "Zebra", image: "/images2/zebra.jpg" },
+//   { name: "Azijski lav", image: "/images2/azijskilav.jpg" },
+// ];
 
 function WorkerHome() {
   const {
@@ -52,7 +49,7 @@ function WorkerHome() {
       />
 
       <div className="flex gap-7 justify-center flex-wrap mx-32 max-w-5xl">
-        {animals.map((animal) => {
+        {animals2.map((animal) => {
           return (
             <div key={animal.name} className="">
               <SmallCard name={animal.name} image={animal.image} />

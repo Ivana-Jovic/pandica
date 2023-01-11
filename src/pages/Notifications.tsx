@@ -1,23 +1,17 @@
+import { AuthContext } from "authContext";
 import bgImage from "images/panda.jpg";
-interface userInfo {
-  firstName: string;
-  lastName: string;
-  telephone: string;
-  adress: string;
-  username: string;
-  password: string;
-  notifications: string[];
-}
+import { useContext } from "react";
 
 function Notifications() {
-  const users: userInfo[] = JSON.parse(localStorage.getItem("users") + "");
-  const currUser = JSON.parse(localStorage.getItem("currUser") + "");
-  var user = users.find((user) => {
-    // setCurrUser(user);
-    return (
-      user.username === currUser.username && user.password === currUser.password
-    );
-  });
+  const { user } = useContext(AuthContext);
+  // const users: userInfo[] = JSON.parse(localStorage.getItem("users") + "");
+  // const currUser = JSON.parse(localStorage.getItem("currUser") + "");
+  // var user = users.find((user) => {
+  //   // setCurrUser(user);
+  //   return (
+  //     user.username === currUser.username && user.password === currUser.password
+  //   );
+  // });
   // if (uu) {
   // }
   return (

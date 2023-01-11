@@ -17,19 +17,7 @@ function Layout() {
       <Navbar />
       <Toaster />
       <div className="grow flex flex-col ">
-        {/* bg-lightGreen  */}
-        {/* <Contact /> */}
-        {/* <Routes>
-          <Route path="/" element={<Home />}></Route>
-        </Routes> */}
-        {/* <Home /> */}
         <Outlet />
-        {/* <Tickets /> */}
-        {/* <Animal /> */}
-        {/* <Notifications /> */}
-        {/* <Profile /> */}
-        {/* <WorkerHome /> */}
-        {/* <WorkerNotifications /> */}
       </div>
       <Footer />
     </div>

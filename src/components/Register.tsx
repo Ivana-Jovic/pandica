@@ -2,6 +2,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import bgImage from "images/panda.jpg";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { userInfo } from "data";
 
 type IFormInput = {
   firstName: string;
@@ -12,16 +13,6 @@ type IFormInput = {
   oldPassword: string;
   newPassword: string;
 };
-
-interface userInfo {
-  firstName: string;
-  lastName: string;
-  telephone: string;
-  adress: string;
-  username: string;
-  password: string;
-  notifications: string[];
-}
 
 function Register({
   inPopup,

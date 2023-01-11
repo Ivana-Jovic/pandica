@@ -1,25 +1,8 @@
+import { AuthContext } from "authContext";
+import { eventInfo } from "data";
 import { UserInfo } from "os";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-
-// import FavoriteIcon from "@mui/icons-material/Favorite";
-interface eventInfo {
-  title: string;
-  description: string;
-  image: string;
-  likes: number;
-  whoLiked: string[];
-} //TODO iyvuci
-
-interface userInfo {
-  firstName: string;
-  lastName: string;
-  telephone: string;
-  adress: string;
-  username: string;
-  password: string;
-  notifications: string[];
-}
 
 function BigCard({
   title,
@@ -34,11 +17,7 @@ function BigCard({
   likes: number;
   whoLiked: string[];
 }) {
-  const [currUser, setCurrUser] = useState<userInfo>();
-  // useEffect(() => {
-
-  // }, []);
-  // setCurrUser(JSON.parse(localStorage.getItem("currUser") + ""));
+  const { user } = useContext(AuthContext);
   const [li, setLi] = useState<number>(likes);
   const [liked, setLiked] = useState<boolean>(false);
   const like = () => {
@@ -49,7 +28,7 @@ function BigCard({
         // const currUser = JSON.parse(localStorage.getItem("currUser") + "");
         if (
           e[i].whoLiked.find((n) => {
-            return n === currUser?.username;
+            return n === user?.username;
           })
         ) {
           //TODO add user
@@ -58,14 +37,14 @@ function BigCard({
           e[i].likes = likes - 1;
           setLiked(false);
           e[i].whoLiked = e[i].whoLiked.filter((n) => {
-            return n !== currUser?.username;
+            return n !== user?.username;
           });
         } else {
           setLi(li + 1);
           e[i].likes = likes + 1;
           setLiked(true);
 
-          e[i].whoLiked.push(currUser?.username + "");
+          e[i].whoLiked.push(user?.username + "");
         }
 
         break;
@@ -75,21 +54,12 @@ function BigCard({
   };
 
   useEffect(() => {
-    const e: eventInfo[] = JSON.parse(localStorage.getItem("events") + "");
-    // const currUser = JSON.parse(localStorage.getItem("currUser") + "");
-    setCurrUser(JSON.parse(localStorage.getItem("currUser") + ""));
-    for (let i = 0; i < e.length; i++) {
-      if (e[i].title === title) {
-        if (
-          e[i].whoLiked.find((n) => {
-            return n === currUser?.username;
-          })
-        ) {
-          setLiked(true);
-        }
-      }
+    const events: eventInfo[] = JSON.parse(localStorage.getItem("events") + "");
+    if (user && whoLiked.includes(user.username)) {
+      setLiked(true);
     }
-  }, []);
+  }, [user]);
+
   return (
     <div>
       <div className="card w-[380px] h-[460px] bg-base-100 shadow-xl rounded-sm">
@@ -103,7 +73,7 @@ function BigCard({
         <div className="card-body items-center text-center">
           <h2 className="card-title">{title}</h2>
           <div className="text-left">{description}</div>
-          {currUser && (
+          {user && (
             <div onClick={() => like()} className="card-actions self-end ">
               {li}
               {!liked && (

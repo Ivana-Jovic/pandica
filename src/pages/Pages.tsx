@@ -13,8 +13,6 @@ import WorkerNotifications from "./WorkerNotifications";
 
 function Pages() {
   return (
-    // <div></div>
-    // ReactDOM.render(
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
@@ -30,12 +28,9 @@ function Pages() {
             element={<WorkerNotifications />}
           />
           <Route path="/workerhome" element={<WorkerHome />} />
-        </Route>{" "}
+        </Route>
       </Routes>
     </BrowserRouter>
-
-    // , document.getElementById("root")
-    //  );
   );
 }
 

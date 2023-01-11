@@ -4,6 +4,7 @@ import "./App.css";
 import Layout from "./pages/Layout";
 import "./styles/global.css";
 import Pages from "pages/Pages";
+import { AuthProvider } from "authContext";
 // function App() {
 //   return (
 //     <div className="App">
@@ -28,7 +29,10 @@ function App() {
   return (
     <div className="App">
       {/* <header className="App-header"> */}
-      <Pages />
+      <AuthProvider>
+        <Pages />
+      </AuthProvider>
+
       {/* <Layout /> */}
       {/* </header> */}
     </div>

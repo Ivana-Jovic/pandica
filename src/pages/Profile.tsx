@@ -2,6 +2,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import bgImage from "images/panda.jpg";
 import toast from "react-hot-toast";
 import Register from "components/Register";
+import { useContext } from "react";
+import { AuthContext } from "authContext";
 
 type IFormInput = {
   firstName: string;
@@ -13,6 +15,7 @@ type IFormInput = {
   newPassword: string;
 };
 function Profile() {
+  const { user } = useContext(AuthContext);
   const {
     handleSubmit,
     register,

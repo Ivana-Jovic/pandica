@@ -1,22 +1,10 @@
 import bgImage from "images/panda.jpg";
 
-interface userInfo {
-  firstName: string;
-  lastName: string;
-  telephone: string;
-  adress: string;
-  username: string;
-  password: string;
-  notifications: string[];
-}
-
 function WorkerNotifications() {
   const notificationsAdmin: string[] = JSON.parse(
     localStorage.getItem("notificationAdmin") + ""
   );
-  // var uu = users.find((user) => {
-  //   return user.username === "admin" && user.password === "123";
-  // });
+
   return (
     <div
       className="px-20 w-full  flex flex-col items-center  
