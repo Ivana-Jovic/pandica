@@ -1,44 +1,72 @@
 import bgImage from "images/panda2.jpg";
 import SmallCard from "components/SmallCard";
-import BigCard from "components/BigCard";
-import { useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
-import { animalInfo, animals2 } from "data";
+import { animalInfo } from "data";
+import ErrorPage from "./ErrorPage";
+import { AuthContext } from "authContext";
 type IFormInput = {
   picture: string;
   name: string;
   description: string;
 };
-// const animals: animalInfo[] = [
-//   { name: "Sumski ris", image: "/images2/sumskiris.jpg" },
-//   { name: "Merkat", image: "/images2/merkat.jpg" },
-//   { name: "Koala", image: "/images2/koala.jpg" },
-//   { name: "Zebra", image: "/images2/zebra.jpg" },
-//   { name: "Azijski lav", image: "/images2/azijskilav.jpg" },
-//   { name: "Merkat", image: "/images2/merkat.jpg" },
-//   { name: "Koala", image: "/images2/koala.jpg" },
-//   { name: "Zebra", image: "/images2/zebra.jpg" },
-//   { name: "Azijski lav", image: "/images2/azijskilav.jpg" },
-// ];
 
 function WorkerHome() {
+  const [refresh, setRefresh] = useState<boolean>(false);
+  const selectedPicture = useRef<string>("");
+  const animals: animalInfo[] = JSON.parse(
+    localStorage.getItem("animals") + ""
+  );
+
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors },
   } = useForm<IFormInput>({
     defaultValues: {
-      picture: "",
+      // picture: "",
       name: "",
       description: "",
     },
   });
+  const { user } = useContext(AuthContext);
+  if (user?.username !== "admin") return <ErrorPage />;
+
   const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput) => {
     toast.success("Dodata zivotinja");
+    const animals: animalInfo[] = JSON.parse(
+      localStorage.getItem("animals") + ""
+    );
+    const newAnimal: animalInfo = {
+      name: data.name,
+      image:
+        selectedPicture.current !== ""
+          ? selectedPicture.current
+          : "/images2/zebra.jpg",
+      description: data.description,
+      comments: [],
+    };
+    animals.push(newAnimal);
+    localStorage.setItem("animals", JSON.stringify(animals));
+    setRefresh(!refresh);
+    restart();
+  };
+  const restart = () => {
+    selectedPicture.current = "";
+    reset({
+      // picture: "",
+      name: "",
+      description: "",
+    });
   };
   const cancel = () => {
     toast.error("Odustano od dodavanja zivotinje");
+    restart();
+  };
+  const addPicture = (picture: string) => {
+    selectedPicture.current = picture;
   };
   return (
     <div className="relative px-10 pt-10 bg-lightGreen w-full flex flex-col items-center space-y-4">
@@ -49,7 +77,7 @@ function WorkerHome() {
       />
 
       <div className="flex gap-7 justify-center flex-wrap mx-32 max-w-5xl">
-        {animals2.map((animal) => {
+        {animals.map((animal) => {
           return (
             <div key={animal.name} className="">
               <SmallCard name={animal.name} image={animal.image} />
@@ -61,32 +89,51 @@ function WorkerHome() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-2 place-items-center gap-7 my-10">
           <label className="">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 4.5v15m7.5-7.5h-15"
+            <div className="grid grid-cols-2">
+              <img
+                src="/images2/zebra.jpg"
+                alt=""
+                className="h-24 w-24 object-cover cursor-pointer hover:shadow-2xl active:border-4"
+                onClick={() => {
+                  addPicture("/images2/zebra.jpg");
+                }}
               />
-            </svg>
-
-            <input
+              <img
+                src="/images2/koala.jpg"
+                alt=""
+                className="h-24 w-24 object-cover cursor-pointer hover:shadow-2xl active:border-4"
+                onClick={() => {
+                  addPicture("/images2/koala.jpg");
+                }}
+              />
+              <img
+                src="/images2/merkat.jpg"
+                alt=""
+                className="h-24 w-24 object-cover cursor-pointer hover:shadow-2xl active:border-4"
+                onClick={() => {
+                  addPicture("/images2/merkat.jpg");
+                }}
+              />
+              <img
+                src="/images2/nosorog.jpg"
+                alt=""
+                className="h-24 w-24 object-cover cursor-pointer hover:shadow-2xl active:border-4"
+                onClick={() => {
+                  addPicture("/images2/nosorog.jpg");
+                }}
+              />
+            </div>
+            {/* <input
               {...register("picture")}
               type="file"
               accept="image/png, image/jpeg, image/jpg"
               className="hidden"
-            />
+            /> */}
           </label>
           <input
             placeholder="ime"
             {...register("name", { required: true })}
-            className="h-36 text-center"
+            className="h-48 text-center"
           />
           <textarea
             placeholder="Tekst"
@@ -104,6 +151,9 @@ function WorkerHome() {
           >
             Odustani
           </button>
+        </div>
+        <div className="pb-10">
+          {(errors.description || errors.name) && "Sva polja su obavezna"}
         </div>
       </form>
     </div>

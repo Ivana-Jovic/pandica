@@ -1,15 +1,18 @@
 import TicketCard from "components/TicketCard";
 import TicketCardPicture from "components/TicketCardPicture";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import bgImage from "images/panda.jpg";
+import { AuthContext } from "authContext";
+import ErrorPage from "./ErrorPage";
 
 function Tickets() {
+  const { user } = useContext(AuthContext);
   const [count, seCount] = useState<number>(1);
   const [selectedItemTitle, setSelectedItemTitle] = useState<string>("");
   const [selectedItemPrice, setSelectedItemPrice] = useState<number>(0);
   const [promo, setPromo] = useState<string>("");
-
+  if (user?.username === "admin") return <ErrorPage />;
   const handleChange = (event: any) => {
     setPromo(event.target.value);
     if (event.target.value === "promo") {
@@ -17,15 +20,22 @@ function Tickets() {
     }
   };
 
-  const kupi = () => {
+  const buy = () => {
     toast.success("Kupljena ulaznica");
+    const notificationsAdmin: string[] = JSON.parse(
+      localStorage.getItem("notificationAdmin") + ""
+    );
+    notificationsAdmin.push(user?.username + ": ceka odobravanje");
     localStorage.setItem(
       "notificationAdmin",
-      JSON.stringify("Ceka odobravanje")
-    ); //TODO add user name
+      JSON.stringify(notificationsAdmin)
+    );
+
+    setSelectedItemPrice(0);
+    setSelectedItemTitle("");
   };
 
-  const odustani = () => {
+  const cancel = () => {
     toast.error("Odustano od kupovine ulaznica");
     setSelectedItemPrice(0);
     setSelectedItemTitle("");
@@ -77,7 +87,12 @@ function Tickets() {
           setSelectedItemPrice={setSelectedItemPrice}
         />
       </div>
-      {selectedItemTitle && (
+      {!user && selectedItemTitle && (
+        <div className="my-10 text-2xl font-semibold">
+          Za kupovinu ulaznica morate se prijaviti.
+        </div>
+      )}
+      {user && selectedItemTitle && (
         <div className="flex flex-col w-96 gap-6 mb-10  mt-20">
           <div className="flex justify-between px-5">
             <div>{selectedItemTitle}</div>
@@ -145,13 +160,13 @@ function Tickets() {
           <hr className="border-black" />
           <div className="flex gap-7 justify-center">
             <button
-              onClick={kupi}
+              onClick={buy}
               className="btn border-none w-28 bg-offwhite hover:bg-offwhite shadow-md hover:shadow-lg text-black   rounded-md "
             >
               Kupi
             </button>
             <button
-              onClick={odustani}
+              onClick={cancel}
               className="btn border-none w-28 bg-offwhite hover:bg-offwhite  shadow-md hover:shadow-lg text-black   rounded-md "
             >
               Odustani

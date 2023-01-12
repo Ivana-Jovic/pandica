@@ -1,8 +1,7 @@
 import { AuthContext } from "authContext";
 import logo from "images/logo.png";
-import { useContext, useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Popup from "./Popup";
 import Register from "./Register";
 
@@ -22,7 +21,6 @@ function Navbar() {
 
   return (
     <div className="w-full bg-darkGreen px-10 py-3 grid grid-cols-2 items-center">
-      {/* <a href="/"> */}
       <img
         onClick={() => navigate("/")}
         className="cursor-pointer"
@@ -31,7 +29,7 @@ function Navbar() {
         height="60"
         width="60"
       />
-      {/* </a> */}
+      {/* --------ADMIN---------- */}
       {user?.username === "admin" && (
         <div className="flex justify-end space-x-10 font-bold">
           <div
@@ -57,6 +55,8 @@ function Navbar() {
           </div>
         </div>
       )}
+
+      {/* --------OTHER---------- */}
       {user?.username !== "admin" && (
         <div className="flex justify-end space-x-10 font-bold">
           <div className="cursor-pointer" onClick={() => navigate("/")}>
@@ -68,18 +68,16 @@ function Navbar() {
           <div className="cursor-pointer" onClick={() => navigate("/contact")}>
             KONTAKT
           </div>
+          {/* --------NOT SIGNED IN---------- */}
           {!user && (
             <div className="cursor-pointer" onClick={() => setPopupOpen(true)}>
-              {" "}
-              {/* <label htmlFor="my-modal-3" className="bg-gray-500"> */}
               PRIJAVA
-              {/* </label> */}
             </div>
           )}
+          {/* --------SIGNED IN---------- */}
           {user && (
             <div className="dropdown dropdown-end">
               <label tabIndex={0} className="">
-                {" "}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -97,17 +95,30 @@ function Navbar() {
               </label>
               <ul
                 tabIndex={0}
-                className="text-left dropdown-content menu p-2 shadow bg-base-100 rounded-box w-36"
+                className="text-left  gap-4 dropdown-content menu p-5 shadow bg-base-100 rounded-box w-36"
               >
-                <li>
-                  <Link to={"/contact"}>Obaveštenja</Link>
-                  {/* <NavLink to={"/contact"}>Obaveštenja</NavLink> */}
+                <li
+                  className="cursor-pointer"
+                  onClick={() => navigate("/notifications")}
+                >
+                  {/* <Link to={"/contact"}>Obaveštenja</Link> */}
+                  Obaveštenja
                 </li>
-                <li onClick={() => navigate("/profile")}>Profil</li>
-                {/* <li>
-                  <a href="/contact">Item 1</a>
-                </li> */}
-                <li onClick={() => signout()}>Odjava</li>
+                <li
+                  className="cursor-pointer"
+                  onClick={() => navigate("/profile")}
+                >
+                  Profil
+                </li>
+                <li
+                  className="cursor-pointer "
+                  onClick={() => {
+                    signout();
+                    navigate("/");
+                  }}
+                >
+                  Odjava
+                </li>
               </ul>
             </div>
           )}
@@ -117,21 +128,24 @@ function Navbar() {
         {!issignin && (
           <div>
             <Register inPopup={true} action={() => handleClose()} />
-            <div onClick={() => setssignin(!issignin)}>
+            <div
+              className="cursor-pointer"
+              onClick={() => setssignin(!issignin)}
+            >
               Imate nalog? Prijavite se...
             </div>
           </div>
         )}
         {issignin && (
           <div className="grid grid-cols-2 items-center gap-5 mt-10 mr-10">
-            <label className="">Korisnicko ime</label>{" "}
+            <label className="">Korisnicko ime</label>
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="textarea w-full rounded-sm "
             />
-            <label className="">Lozinka</label>{" "}
+            <label className="">Lozinka</label>
             <input
               type="text"
               value={password}
@@ -142,6 +156,8 @@ function Navbar() {
               onClick={() => {
                 if (signin(username, password)) {
                   setPopupOpen(false);
+                  setUsername("");
+                  setPassword("");
                   if (username === "admin" && password === "123")
                     navigate("/WorkerHome");
                   else navigate("/");
@@ -154,7 +170,7 @@ function Navbar() {
             </button>{" "}
             <div
               onClick={() => setssignin(!issignin)}
-              className="col-span-2 justify-self-center"
+              className="col-span-2 justify-self-center cursor-pointer"
             >
               Nemate nalog? Registrujte se...
             </div>

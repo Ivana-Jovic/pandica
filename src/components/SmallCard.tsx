@@ -5,7 +5,7 @@ function SmallCard({ name, image }: { name: string; image: string }) {
   return (
     <div
       onClick={() => navigate(`/animal/${name}`)}
-      className="card card-compact w-40 bg-base-100 shadow-xl rounded-sm"
+      className="card cursor-pointer card-compact w-40 bg-base-100 shadow-xl rounded-sm"
     >
       <figure className="">
         <img src={image} alt="" className="h-40 object-cover" />

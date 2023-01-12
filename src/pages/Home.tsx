@@ -1,10 +1,10 @@
 import bgImage from "images/panda2.jpg";
-import Navbar from "components/Navbar";
-import Footer from "components/Footer";
 import SmallCard from "components/SmallCard";
 import BigCard from "components/BigCard";
-import { useEffect, useState } from "react";
-import { animals2, events, users } from "data";
+import { useContext, useState } from "react";
+import { animalInfo, animals2, events, users } from "data";
+import { AuthContext } from "authContext";
+import ErrorPage from "./ErrorPage";
 
 function Home() {
   const numberOfPages = Math.ceil(animals2.length / 5);
@@ -16,10 +16,15 @@ function Home() {
     localStorage.setItem("users", JSON.stringify(users));
     localStorage.setItem(
       "notificationAdmin",
-      JSON.stringify(["notAdmin1", "notAdmin2"])
+      JSON.stringify(["a:notAdmin1", "a:notAdmin2"])
     );
   }
+  const { user } = useContext(AuthContext);
+  if (user?.username === "admin") return <ErrorPage />;
 
+  const animals: animalInfo[] = JSON.parse(
+    localStorage.getItem("animals") + ""
+  );
   return (
     <div className="relative bg-lightGreen ">
       <img
@@ -30,10 +35,9 @@ function Home() {
       <div className="mt-[300px] mx-10 ">
         <div className=" w-full flex flex-col items-center space-y-4">
           <div className="flex gap-7 justify-center flex-wrap mx-32">
-            {animals2
+            {animals
               .slice((newPage - 1) * 5, newPage * 5)
               .map((animal: any) => {
-                //MIKI
                 return (
                   <div key={animal.name} className="">
                     <SmallCard name={animal.name} image={animal.image} />
@@ -45,7 +49,6 @@ function Home() {
             {arrayOfPages.map((pg) => {
               return (
                 <div key={pg.valueOf()} className="">
-                  {/* MIKI ya on click*/}
                   <button
                     onClick={() => setNewPage(pg)}
                     className="btn btn-circle bg-white text-text  border-white "
@@ -58,9 +61,7 @@ function Home() {
           </div>
         </div>
 
-        {/* fixed top-[670px] */}
         <div className="flex flex-wrap  max-w-7xl gap-7 mx-auto justify-center my-7">
-          {/* max-w-5xl */}
           {events.map((event: any) => {
             return (
               <div key={event.title} className="">

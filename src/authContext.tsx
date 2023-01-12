@@ -1,10 +1,11 @@
 import { userInfo } from "data";
-import { createContext, useEffect, useState } from "react";
+import { createContext, Dispatch, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 type ContextType = {
   user: undefined | userInfo;
+  setUser: Dispatch<React.SetStateAction<userInfo | undefined>>;
   signout: () => void;
 
   signin: (username: string, password: string) => boolean;
@@ -14,6 +15,7 @@ type AuthProviderProps = {
 };
 export const AuthContext = createContext<ContextType>({
   user: undefined,
+  setUser: () => {},
   signout: () => {},
   signin: () => false,
 });
@@ -50,6 +52,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const u: ContextType = {
     user,
+    setUser,
     signout,
     signin,
   };
