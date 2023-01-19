@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import bgImage from "images/panda.jpg";
 import { AuthContext } from "authContext";
 import ErrorPage from "./ErrorPage";
+import Button from "components/Button";
 
 function Tickets() {
   const { user } = useContext(AuthContext);
@@ -13,6 +14,7 @@ function Tickets() {
   const [selectedItemPrice, setSelectedItemPrice] = useState<number>(0);
   const [promo, setPromo] = useState<string>("");
   if (user?.username === "admin") return <ErrorPage />;
+
   const handleChange = (event: any) => {
     setPromo(event.target.value);
     if (event.target.value === "promo") {
@@ -23,7 +25,7 @@ function Tickets() {
   const buy = () => {
     toast.success("Kupljena ulaznica");
     const notificationsAdmin: string[] = JSON.parse(
-      localStorage.getItem("notificationAdmin") + ""
+      localStorage.getItem("notificationAdmin") ?? ""
     );
     notificationsAdmin.push(user?.username + ": ceka odobravanje");
     localStorage.setItem(
@@ -159,18 +161,8 @@ function Tickets() {
           </div>
           <hr className="border-black" />
           <div className="flex gap-7 justify-center">
-            <button
-              onClick={buy}
-              className="btn border-none w-28 bg-offwhite hover:bg-offwhite shadow-md hover:shadow-lg text-black   rounded-md "
-            >
-              Kupi
-            </button>
-            <button
-              onClick={cancel}
-              className="btn border-none w-28 bg-offwhite hover:bg-offwhite  shadow-md hover:shadow-lg text-black   rounded-md "
-            >
-              Odustani
-            </button>
+            <Button onClick={buy}>Kupi</Button>
+            <Button onClick={cancel}>Odustani</Button>
           </div>
         </div>
       )}

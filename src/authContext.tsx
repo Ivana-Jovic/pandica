@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const signin = (username: string, password: string) => {
-    const users: userInfo[] = JSON.parse(localStorage.getItem("users") + "");
+    const users: userInfo[] = JSON.parse(localStorage.getItem("users") ?? "");
     const currUser = users.find((user) => {
       return user.username === username && user.password === password;
     });

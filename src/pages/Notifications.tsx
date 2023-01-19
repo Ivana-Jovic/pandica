@@ -8,10 +8,7 @@ function Notifications() {
   if (!user || user?.username === "admin") return <ErrorPage />;
 
   return (
-    <div
-      className="px-20 w-full  flex flex-col items-center  
- relative grow"
-    >
+    <div className="px-20 w-full  flex flex-col items-center relative grow">
       <img
         src={bgImage}
         alt=""
@@ -25,13 +22,13 @@ function Notifications() {
             user?.notifications
               .slice(0)
               .reverse()
-              .map((not) => {
+              .map((notification) => {
                 return (
                   <div
-                    key={not}
+                    key={notification}
                     className="textarea  rounded-sm text-left bg-white w-full"
                   >
-                    {not}
+                    {notification}
                   </div>
                 );
               })}

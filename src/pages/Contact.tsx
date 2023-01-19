@@ -13,12 +13,7 @@ function Contact() {
         alt=""
         className="opacity-5 -z-10 top-0 left-0 right-0 absolute h-full object-cover w-full "
       />
-      {/* //MIKI ovde kao da nije height full em zbog slike, em zbog centriranja vertikalnog */}
-      <div
-        className="flex  justify-center mt-20
-      lg:max-h-[400px] 
-     "
-      >
+      <div className="flex  justify-center mt-20 lg:max-h-[400px]">
         <div className="  card lg:card-side bg-base-100 rounded-none bg-transparent">
           {/* flex flex-col  place-content-center  place-items-center  place-self-center
        justify-center content-center

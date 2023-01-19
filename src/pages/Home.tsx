@@ -7,8 +7,12 @@ import { AuthContext } from "authContext";
 import ErrorPage from "./ErrorPage";
 
 function Home() {
-  const numberOfPages = Math.ceil(animals2.length / 5);
+  const animals: animalInfo[] = JSON.parse(
+    localStorage.getItem("animals") ?? ""
+  );
+  const numberOfPages = Math.ceil(animals.length / 5);
   const arrayOfPages = Array.from({ length: numberOfPages }, (v, k) => k + 1);
+  // console.log(arrayOfPages)
   const [newPage, setNewPage] = useState<number>(1);
   if (localStorage.length === 0) {
     localStorage.setItem("animals", JSON.stringify(animals2));
@@ -22,9 +26,6 @@ function Home() {
   const { user } = useContext(AuthContext);
   if (user?.username === "admin") return <ErrorPage />;
 
-  const animals: animalInfo[] = JSON.parse(
-    localStorage.getItem("animals") + ""
-  );
   return (
     <div className="relative bg-lightGreen ">
       <img

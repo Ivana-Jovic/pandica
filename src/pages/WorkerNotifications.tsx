@@ -8,7 +8,7 @@ import ErrorPage from "./ErrorPage";
 function WorkerNotifications() {
   const [refresh, setRefresh] = useState<boolean>(false);
   const notificationsAdmin: string[] = JSON.parse(
-    localStorage.getItem("notificationAdmin") + ""
+    localStorage.getItem("notificationAdmin") ?? ""
   );
   const { user } = useContext(AuthContext);
   if (user?.username !== "admin") return <ErrorPage />;
@@ -16,7 +16,7 @@ function WorkerNotifications() {
   const allow = (not: string) => {
     toast.success("Odobreno");
     const nameTo: string = not.split(":")[0];
-    const users: userInfo[] = JSON.parse(localStorage.getItem("users") + "");
+    const users: userInfo[] = JSON.parse(localStorage.getItem("users") ?? "");
     const userTo = users.find((user) => {
       return user.username === nameTo;
     });
@@ -60,11 +60,11 @@ function WorkerNotifications() {
       <div className=" w-full max-w-5xl flex  flex-col gap-5">
         {notificationsAdmin.map((not) => {
           return (
-            <div className="w-full textarea p-0 rounded-sm grid grid-cols-2 place-items-center">
-              <div
-                key={not}
-                className="textarea col-span-2 rounded-sm text-left bg-white w-full"
-              >
+            <div
+              key={not}
+              className="w-full textarea p-0 rounded-sm grid grid-cols-2 place-items-center"
+            >
+              <div className="textarea col-span-2 rounded-sm text-left bg-white w-full">
                 {not}
               </div>
               <div

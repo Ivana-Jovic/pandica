@@ -8,13 +8,7 @@ function Popup({
   onClose: () => void;
 }) {
   return (
-    <div
-      className={`modal ${open ? "modal-open" : ""} `}
-      //   onKeyDown={(e) => {
-      //     if (e.key === "Escape") onClose();
-      //   }}
-      //   tabIndex={-1}
-    >
+    <div className={`modal ${open ? "modal-open" : ""} `}>
       <div className="relative modal-box bg-darkGreen flex flex-col items-center  justify-evenly">
         <div
           className="btn btn-sm btn-circle absolute right-2 top-2"

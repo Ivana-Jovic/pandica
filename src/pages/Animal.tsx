@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-
 import bgImage from "images/panda.jpg";
 import { useParams } from "react-router-dom";
 import { animalInfo } from "data";
 import { AuthContext } from "authContext";
+import Button from "components/Button";
 
 function Animal() {
   const { user } = useContext(AuthContext);
@@ -12,14 +12,29 @@ function Animal() {
   const [newComment, setNewComment] = useState<string>("");
   const postComment = () => {
     toast.success("Komentar ostavljen");
-    const a: animalInfo[] = JSON.parse(localStorage.getItem("animals") + "");
-    for (let i = 0; i < a.length; i++) {
-      if (a[i].name === name) {
-        a[i].comments.push(user?.username + ": " + newComment);
-        break;
-      }
-    }
-    localStorage.setItem("animals", JSON.stringify(a));
+    const animals: animalInfo[] = JSON.parse(
+      localStorage.getItem("animals") ?? ""
+    );
+    localStorage.setItem(
+      "animals",
+      JSON.stringify(
+        animals.map((animal) => {
+          if (animal.name === name)
+            animal.comments.push(user?.username + ": " + newComment);
+          return animal;
+        })
+      )
+    );
+
+    setCurrAnimal((prev) => {
+      if (
+        !prev?.comments.some(
+          (comm) => comm === user?.username + ": " + newComment
+        )
+      )
+        prev?.comments.push(user?.username + ": " + newComment);
+      return prev;
+    });
     setWantToComm(!wantToComm);
     setNewComment("");
   };
@@ -29,20 +44,16 @@ function Animal() {
     toast.error("Odustano od postavljanja komentara");
   };
 
-  let { name } = useParams(); //MIKI tim prome
+  let { name } = useParams();
   const [currAnimal, setCurrAnimal] = useState<animalInfo>();
-  const a: animalInfo[] = JSON.parse(localStorage.getItem("animals") + "");
+  const animals: animalInfo[] = JSON.parse(
+    localStorage.getItem("animals") ?? ""
+  );
 
   useEffect(() => {
-    for (let i = 0; i < a.length; i++) {
-      if (a[i].name === name) {
-        // MIKI sta raditi sa tipom use state use ref ;
-        setCurrAnimal(a[i]);
-        //     //  da li treba use efef
-        break;
-      }
-    }
+    setCurrAnimal(animals.find((animal) => animal.name === name));
   }, []);
+
   return (
     <div
       className="px-20 w-full  flex flex-col items-center  
@@ -86,12 +97,9 @@ function Animal() {
           })}
         </div>
         {user && user.username !== "admin" && !wantToComm && (
-          <button
-            onClick={() => setWantToComm(!wantToComm)}
-            className="mt-5 btn border-none w-48 bg-white hover:bg-white  shadow-md hover:shadow-lg text-black   rounded-md "
-          >
+          <Button onClick={() => setWantToComm(!wantToComm)}>
             Ostavi komentar
-          </button>
+          </Button>
         )}
 
         {wantToComm && (
@@ -104,18 +112,8 @@ function Animal() {
               ></textarea>
             </div>
             <div className="flex gap-10 justify-center">
-              <button
-                onClick={postComment}
-                className="mt-5 btn border-none w-48 bg-white hover:bg-white  shadow-md hover:shadow-lg text-black   rounded-md "
-              >
-                Postavi
-              </button>
-              <button
-                onClick={cancelComment}
-                className="mt-5 btn border-none w-48 bg-white hover:bg-white  shadow-md hover:shadow-lg text-black   rounded-md "
-              >
-                Ponisti
-              </button>
+              <Button onClick={postComment}>Postavi</Button>
+              <Button onClick={cancelComment}>Ponisti</Button>
             </div>
           </div>
         )}

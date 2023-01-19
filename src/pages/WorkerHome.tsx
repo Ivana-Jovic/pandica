@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { animalInfo } from "data";
 import ErrorPage from "./ErrorPage";
 import { AuthContext } from "authContext";
+import Button from "components/Button";
 type IFormInput = {
   picture: string;
   name: string;
@@ -37,7 +38,7 @@ function WorkerHome() {
   const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput) => {
     toast.success("Dodata zivotinja");
     const animals: animalInfo[] = JSON.parse(
-      localStorage.getItem("animals") + ""
+      localStorage.getItem("animals") ?? ""
     );
     const newAnimal: animalInfo = {
       name: data.name,
@@ -143,14 +144,9 @@ function WorkerHome() {
           <input
             type="submit"
             value="Promeni"
-            className="my-5 btn border-none w-48 bg-offwhite hover:bg-offwhite  shadow-md hover:shadow-lg text-black   rounded-md"
+            className="my-5 btn border-none w-48 bg-white hover:bg-white  shadow-md hover:shadow-lg text-black   rounded-md"
           />
-          <button
-            onClick={cancel}
-            className="my-5 btn border-none w-48 bg-offwhite hover:bg-offwhite  shadow-md hover:shadow-lg text-black   rounded-md"
-          >
-            Odustani
-          </button>
+          <Button onClick={cancel}>Odustani</Button>
         </div>
         <div className="pb-10">
           {(errors.description || errors.name) && "Sva polja su obavezna"}

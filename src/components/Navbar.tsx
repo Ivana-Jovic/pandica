@@ -137,15 +137,15 @@ function Navbar() {
           </div>
         )}
         {issignin && (
-          <div className="grid grid-cols-2 items-center gap-5 mt-10 mr-10">
-            <label className="">Korisnicko ime</label>
+          <div className="grid grid-cols-2 items-center gap-5 pt-10 px-10">
+            <label className="text-left">Korisnicko ime</label>
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="textarea w-full rounded-sm "
             />
-            <label className="">Lozinka</label>
+            <label className="text-left">Lozinka</label>
             <input
               type="text"
               value={password}

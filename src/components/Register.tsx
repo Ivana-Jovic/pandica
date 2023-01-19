@@ -2,8 +2,9 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { userInfo } from "data";
-import { useContext } from "react";
+import { Dispatch, useContext } from "react";
 import { AuthContext } from "authContext";
+import Button from "./Button";
 
 type IFormInput = {
   firstName: string;
@@ -18,9 +19,11 @@ type IFormInput = {
 function Register({
   inPopup,
   action,
+  setChangeProfile,
 }: {
   inPopup: boolean;
   action?: () => void;
+  setChangeProfile?: Dispatch<React.SetStateAction<boolean>>;
 }) {
   const { user, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -53,35 +56,32 @@ function Register({
         return;
       }
     }
-    const users: userInfo[] = JSON.parse(localStorage.getItem("users") + "");
+    const users: userInfo[] = JSON.parse(localStorage.getItem("users") ?? "");
     const newUser: userInfo = {
-      firstName: data.firstName === "" ? user?.firstName + "" : data.firstName,
-      lastName: data.lastName === "" ? user?.lastName + "" : data.lastName,
-      telephone: data.telephone === "" ? user?.telephone + "" : data.telephone,
-      adress: data.adress === "" ? user?.adress + "" : data.adress,
-      username: data.username === "" ? user?.username + "" : data.username,
-      password:
-        data.oldPassword === "" ? user?.password + "" : data.newPassword,
+      firstName: data.firstName === "" ? user?.firstName ?? "" : data.firstName,
+      lastName: data.lastName === "" ? user?.lastName ?? "" : data.lastName,
+      telephone: data.telephone === "" ? user?.telephone ?? "" : data.telephone,
+      adress: data.adress === "" ? user?.adress ?? "" : data.adress,
+      username: data.username === "" ? user?.username ?? "" : data.username,
+      password: inPopup
+        ? data.oldPassword
+        : data.oldPassword === ""
+        ? user?.password ?? ""
+        : data.newPassword,
       notifications: !inPopup && user?.notifications ? user?.notifications : [],
     };
 
     if (!inPopup) {
+      //edit profile
       toast.success("Promenjeni podaci");
-      const u = users.find((uu) => {
-        return uu.username === user?.username;
-      });
-      const index = u ? users.indexOf(u) : -2; //iz nekog rayloga ne moze user iy konteksta
+      const index = users.findIndex((u) => u.username === user?.username);
+      // const index = u ? users.indexOf(u) : -2; //iz nekog rayloga ne moze user iy konteksta
       users[index] = newUser;
       localStorage.setItem("currUser", JSON.stringify(newUser));
       setUser(newUser);
       navigate("/");
-    }
-
-    if (inPopup) {
-      const u = users.find((uu) => {
-        return uu.username === data.username;
-      });
-      if (u) {
+    } else {
+      if (users.some((u) => u.username === data.username)) {
         toast.error("Morate odabrati drugo korisnicko ime");
         return;
       }
@@ -98,7 +98,6 @@ function Register({
       toast.success("Registrovani ste");
       localStorage.setItem("currUser", JSON.stringify(newUser));
       setUser(newUser);
-
       action?.(); //popup
       users.push(newUser);
     }
@@ -108,7 +107,8 @@ function Register({
 
   const cancel = () => {
     toast.error("Odustano od promene podtaka");
-    navigate("/");
+    if (setChangeProfile) setChangeProfile(false);
+    // navigate("/");
   };
   return (
     <div className="flex flex-col items-center mt-5">
@@ -151,18 +151,18 @@ function Register({
           )}
         </div>
         <div className="flex gap-7 justify-center mt-7">
-          <input
+          {/* <input
             type="submit"
             value={inPopup ? "Registruj se" : "Promeni"}
-            className="my-5 btn border-none w-48 bg-offwhite hover:bg-offwhite  shadow-md hover:shadow-lg text-black   rounded-md"
-          />
+            className="my-5 btn border-none w-48 bg-white hover:bg-white  shadow-md hover:shadow-lg text-black   rounded-md"
+          /> */}
+          <Button type={"submit"}>
+            {inPopup ? "Registruj se" : "Promeni"}
+          </Button>
           {!inPopup && (
-            <button
-              onClick={cancel}
-              className="my-5 btn border-none w-48 bg-offwhite hover:bg-offwhite  shadow-md hover:shadow-lg text-black   rounded-md"
-            >
+            <Button onClick={cancel} type={"button"}>
               Odustani
-            </button>
+            </Button>
           )}
         </div>
       </form>
