@@ -7,13 +7,6 @@ import { AuthContext } from "authContext";
 import ErrorPage from "./ErrorPage";
 
 function Home() {
-  const animals: animalInfo[] = JSON.parse(
-    localStorage.getItem("animals") ?? ""
-  );
-  const numberOfPages = Math.ceil(animals.length / 5);
-  const arrayOfPages = Array.from({ length: numberOfPages }, (v, k) => k + 1);
-  // console.log(arrayOfPages)
-  const [newPage, setNewPage] = useState<number>(1);
   if (localStorage.length === 0) {
     localStorage.setItem("animals", JSON.stringify(animals2));
     localStorage.setItem("events", JSON.stringify(events));
@@ -23,6 +16,14 @@ function Home() {
       JSON.stringify(["a:notAdmin1", "a:notAdmin2"])
     );
   }
+  const animals: animalInfo[] = JSON.parse(
+    localStorage.getItem("animals") + ""
+  );
+  const numberOfPages = Math.ceil(animals.length / 5);
+  const arrayOfPages = Array.from({ length: numberOfPages }, (v, k) => k + 1);
+  // console.log(arrayOfPages)
+  const [newPage, setNewPage] = useState<number>(1);
+
   const { user } = useContext(AuthContext);
   if (user?.username === "admin") return <ErrorPage />;
 
